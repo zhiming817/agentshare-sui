@@ -1,0 +1,208 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id           String   @id @default(uuid())
+  email        String   @unique
+  passwordHash String   @map("password_hash")
+  apiKey       String   @unique @map("api_key")
+  nickname     String
+  avatar       String?
+  bio          String?
+  walletAddress String?  @map("wallet_address")
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  conversations  Conversation[]
+  skills         Skill[]
+  followsGiven   Follow[]    @relation("UserFollows")
+  followsReceived Follow[]   @relation("UserIsFollowed")
+  interactions   Interaction[]
+  comments       Comment[]
+  unlocks        Unlock[]
+
+  @@index([walletAddress])
+  @@map("users")
+}
+
+model Conversation {
+  id            String   @id @default(uuid())
+  userId        String   @map("user_id")
+  title         String
+  description   String?
+  rawContent    String   @map("raw_content") @db.Text
+  sourceType    String   @map("source_type")
+  isPublic      Boolean  @default(true) @map("is_public")
+  price         Int      @default(0)
+  viewCount     Int      @default(0) @map("view_count")
+  likeCount     Int      @default(0) @map("like_count")
+  dislikeCount  Int      @default(0) @map("dislike_count")
+  bookmarkCount Int      @default(0) @map("bookmark_count")
+  commentCount  Int      @default(0) @map("comment_count")
+  messageCount  Int      @default(0) @map("message_count")
+  tags          String[]
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  user     User      @relation(fields: [userId], references: [id])
+  messages Message[]
+  environment Environment?
+  skills   ConversationSkill[]
+  comments Comment[]
+  unlocks  Unlock[]
+
+  @@index([userId])
+  @@index([isPublic, createdAt(sort: Desc)])
+  @@index([isPublic, likeCount(sort: Desc)])
+  @@index([isPublic, viewCount(sort: Desc)])
+  @@map("conversations")
+}
+
+model Message {
+  id             String   @id @default(uuid())
+  conversationId String   @map("conversation_id")
+  sequence       Int
+  role           String
+  content        String   @db.Text
+  toolCalls      Json?    @map("tool_calls")
+  timestamp      DateTime?
+
+  conversation Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+
+  @@unique([conversationId, sequence])
+  @@index([conversationId, sequence(sort: Asc)])
+  @@map("messages")
+}
+
+model Environment {
+  id             String   @id @default(uuid())
+  conversationId String   @unique @map("conversation_id")
+  os             String?
+  containerInfo  String?  @map("container_info")
+  gpu            String?
+  runtimeInfo    String?  @map("runtime_info")
+  rawInfo        Json?    @map("raw_info")
+
+  conversation Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+
+  @@map("environments")
+}
+
+model Skill {
+  id          String   @id @default(uuid())
+  userId      String   @map("user_id")
+  name        String
+  description String?
+  content     String   @db.Text
+  likeCount   Int      @default(0) @map("like_count")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  user           User                @relation(fields: [userId], references: [id])
+  conversations  ConversationSkill[]
+
+  @@map("skills")
+}
+
+model ConversationSkill {
+  conversationId String @map("conversation_id")
+  skillId        String @map("skill_id")
+
+  conversation Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  skill        Skill        @relation(fields: [skillId], references: [id], onDelete: Cascade)
+
+  @@id([conversationId, skillId])
+  @@map("conversation_skills")
+}
+
+model Follow {
+  followerId  String   @map("follower_id")
+  followingId String   @map("following_id")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  follower  User @relation("UserFollows", fields: [followerId], references: [id], onDelete: Cascade)
+  following User @relation("UserIsFollowed", fields: [followingId], references: [id], onDelete: Cascade)
+
+  @@unique([followerId, followingId])
+  @@map("follows")
+}
+
+model Interaction {
+  id         String @id @default(uuid())
+  userId     String @map("user_id")
+  targetType String @map("target_type")
+  targetId   String @map("target_id")
+  action     String
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, targetType, targetId, action])
+  @@index([targetType, targetId])
+  @@map("interactions")
+}
+
+model Comment {
+  id             String   @id @default(uuid())
+  userId         String   @map("user_id")
+  conversationId String   @map("conversation_id")
+  content        String   @db.Text
+  parentId       String?  @map("parent_id")
+  createdAt      DateTime @default(now()) @map("created_at")
+
+  user         User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  conversation Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  parent       Comment?     @relation("CommentReplies", fields: [parentId], references: [id])
+  replies      Comment[]    @relation("CommentReplies")
+
+  @@index([conversationId])
+  @@index([parentId])
+  @@map("comments")
+}
+
+model Unlock {
+  id             String   @id @default(uuid())
+  userId         String   @map("user_id")
+  conversationId String   @map("conversation_id")
+  amountSpent    Int      @map("amount_spent")
+  paymentMethod  String   @default("token") @map("payment_method")
+  txSignature    String?  @map("tx_signature")
+  createdAt      DateTime @default(now()) @map("created_at")
+
+  user         User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  conversation Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, conversationId])
+  @@map("unlocks")
+}
+
+model OnChainTransaction {
+  id             String   @id @default(uuid())
+  signature      String   @unique
+  fromAddress    String   @map("from_address")
+  toAddress      String   @map("to_address")
+  mintAddress    String?  @map("mint_address")
+  amount         BigInt
+  platformFee    BigInt   @map("platform_fee")
+  type           String
+  conversationId String?  @map("conversation_id")
+  status         String   @default("confirmed")
+  createdAt      DateTime @default(now()) @map("created_at")
+
+  @@index([fromAddress])
+  @@index([toAddress])
+  @@index([conversationId])
+  @@map("on_chain_transactions")
+}
+
+model FaucetClaim {
+  id            String   @id @default(uuid())
+  walletAddress String   @map("wallet_address")
+  userId        String?  @map("user_id")
+  amount        Int
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  @@unique([walletAddress])
+  @@map("faucet_claims")
+}
