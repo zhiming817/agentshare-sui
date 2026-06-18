@@ -4,6 +4,7 @@ import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { WalletLoginButton } from "@/components/auth/wallet-login-button";
+import { SuiWalletLoginButton } from "@/components/auth/sui-wallet-login-button";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -160,8 +161,9 @@ export default function RegisterPage() {
             <div className="flex-1 h-px bg-border" />
           </div>
 
-          <div className="mt-4">
+          <div className="mt-4 space-y-2">
             <WalletLoginButton />
+            <SuiWalletLoginButton />
           </div>
 
           <p className="mt-6 text-center text-sm text-muted-foreground">

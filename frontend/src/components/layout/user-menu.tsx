@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, useRef, useEffect } from "react";
 import { Coins } from "lucide-react";
+import { signOut } from "next-auth/react";
 
 interface UserMenuProps {
   nickname: string;
@@ -44,9 +45,7 @@ export function UserMenu({ nickname, userId }: UserMenuProps) {
   }, []);
 
   async function handleLogout() {
-    await fetch("/api/auth/signout", { method: "POST" });
-    router.push("/");
-    router.refresh();
+    await signOut({ callbackUrl: "/" });
   }
 
   return (

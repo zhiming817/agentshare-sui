@@ -1,18 +1,16 @@
 "use client";
 
 import { Check, Copy } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export function InstallGuide() {
   const [copied, setCopied] = useState(false);
   const [origin, setOrigin] = useState("");
 
   // Get origin on mount (client-only)
-  useState(() => {
-    if (typeof window !== "undefined") {
-      setOrigin(window.location.origin);
-    }
-  });
+  useEffect(() => {
+    setOrigin(window.location.origin);
+  }, []);
 
   const text = `Follow the instructions at ${origin || "https://your-domain.com"}/installation.md to get started with Agent Share or update your CLI and skills.`;
 

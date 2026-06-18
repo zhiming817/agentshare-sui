@@ -3,10 +3,11 @@ import Credentials from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import { db } from "@/lib/db";
 import {
-  verifySignature,
+  verifySignature as verifySolanaSignature,
   consumeNonce,
   findOrCreateUserByWallet,
 } from "@/lib/solana-auth";
+import { verifySuiSignature } from "@/lib/sui/auth-utils";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   session: {
@@ -57,17 +58,25 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         walletAddress: { label: "Wallet Address", type: "text" },
         signature: { label: "Signature", type: "text" },
         message: { label: "Message", type: "text" },
+        chain: { label: "Chain", type: "text" },
       },
       async authorize(credentials) {
         const walletAddress = credentials.walletAddress as string;
         const signature = credentials.signature as string;
         const message = credentials.message as string;
+        const chain = (credentials.chain as string) || "solana";
 
         if (!walletAddress || !signature || !message) {
           return null;
         }
 
-        const isValid = verifySignature(walletAddress, message, signature);
+        let isValid = false;
+        if (chain === "sui") {
+          isValid = await verifySuiSignature(walletAddress, message, signature);
+        } else {
+          isValid = verifySolanaSignature(walletAddress, message, signature);
+        }
+
         if (!isValid) {
           return null;
         }
