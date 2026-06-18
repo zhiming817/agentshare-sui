@@ -16,6 +16,9 @@ export async function Header() {
             <Link href="/explore" className="hover:text-foreground transition-colors">
               浏览
             </Link>
+            <Link href="/upload" className="hover:text-foreground transition-colors">
+              上传
+            </Link>
             <Link href="/skills" className="hover:text-foreground transition-colors">
               技能
             </Link>
