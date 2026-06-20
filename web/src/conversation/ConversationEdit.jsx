@@ -2,14 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useCurrentAccount, useSignAndExecuteTransaction, useSignPersonalMessage } from '@mysten/dapp-kit';
 import PageLayout from '../layout/PageLayout';
-import PersonalInfo from './sections/PersonalInfo';
-import Skills from './sections/Skills';
-import DesiredPosition from './sections/DesiredPosition';
-import WorkExperience from './sections/WorkExperience';
-import ProjectExperience from './sections/ProjectExperience';
-import Education from './sections/Education';
-import Certificates from './sections/Certificates';
-
 import { conversationService } from '../services';
 import { transformConversationData, validateConversationData } from '../services/conversation.transform';
 import { encryptWithSeal, decryptWithSeal } from '../utils/seal';
@@ -37,31 +29,10 @@ export default function ConversationEdit() {
 
   // 表单数据
   const [formData, setFormData] = useState({
-    personal: {
-      name: '',
-      gender: 'male',
-      birthDate: '',
-      workStartDate: '',
-      jobStatus: 'employed',
-      identity: 'professional',
-      phone: '',
-      wechat: '',
-      email: '',
-    },
-    skills: '',
-    desiredPosition: {
-      jobType: 'fulltime',
-      position: '',
-      industry: '',
-      salaryMin: '',
-      salaryMax: '',
-      city: '',
-      otherCities: [],
-    },
-    workExperience: [],
-    projectExperience: [],
-    education: [],
-    certificates: [],
+    title: '',
+    summary: '',
+    messages: [],
+    environment: {},
   });
 
   // 加载会话数据
@@ -294,53 +265,17 @@ export default function ConversationEdit() {
 
   const transformResumeToFormData = (resume) => {
     return {
-      personal: {
-        name: resume.personal?.name || '',
-        gender: resume.personal?.gender === '女' ? 'female' : 'male',
-        birthDate: resume.personal?.birth_date || resume.personal?.birthDate || '',
-        workStartDate: resume.personal?.work_start_date || resume.personal?.workStartDate || '',
-        jobStatus: resume.personal?.job_status || resume.personal?.jobStatus || 'employed',
-        identity: resume.personal?.identity || 'professional',
-        phone: resume.personal?.phone || '',
-        wechat: resume.personal?.wechat || '',
-        email: resume.personal?.email || '',
-      },
-      skills: resume.skills || '',
-      desiredPosition: {
-        jobType: resume.desired_position?.job_type || resume.desiredPosition?.jobType || 'fulltime',
-        position: resume.desired_position?.position || resume.desiredPosition?.position || '',
-        industry: resume.desired_position?.industry || resume.desiredPosition?.industry || '',
-        salaryMin: resume.desired_position?.salary_min || resume.desiredPosition?.salaryMin || '',
-        salaryMax: resume.desired_position?.salary_max || resume.desiredPosition?.salaryMax || '',
-        city: resume.desired_position?.city || resume.desiredPosition?.city || '',
-        otherCities: resume.desired_position?.other_cities || resume.desiredPosition?.otherCities || [],
-      },
-      workExperience: resume.work_experience || resume.workExperience || [],
-      projectExperience: resume.project_experience || resume.projectExperience || [],
-      education: (resume.education || []).map(edu => ({
-        school: edu.school || '',
-        major: edu.major || '',
-        degree: edu.degree || 'bachelor',
-        education_type: edu.education_type || edu.educationType || 'fulltime',
-        start_date: edu.start_date || edu.startDate || '',
-        end_date: edu.end_date || edu.endDate || '',
-        thesis: edu.thesis || '',
-        experience: '',
-        thesisDescription: '',
-      })),
-      certificates: resume.certificates || [],
+      title: resume.title || resume.personal?.name || '',
+      summary: resume.summary || '',
+      messages: resume.messages || [],
+      environment: resume.environment || {},
     };
   };
 
   // 侧边栏导航
   const sections = [
-    { id: 'personal', name: '个人信息', icon: '👤' },
-    { id: 'skills', name: '个人优势', icon: '⭐' },
-    { id: 'desired', name: '期望职位', icon: '💼' },
-    { id: 'work', name: '工作经历', icon: '💻' },
-    { id: 'project', name: '项目经历', icon: '📁' },
-    { id: 'education', name: '教育经历', icon: '🎓' },
-    { id: 'certificate', name: '资格证书', icon: '📜' },
+    { id: 'content', name: '会话内容', icon: '💬' },
+    { id: 'settings', name: '设置', icon: '⚙️' },
   ];
 
   const handleInputChange = (section, field, value) => {
@@ -403,7 +338,7 @@ export default function ConversationEdit() {
       }
       
       // 准备更新请求数据
-      const updateData = transformResumeData(formData, walletAddress);
+      const updateData = transformConversationData(formData, walletAddress);
       
       // 如果有新的 Blob ID 和 Salt，添加到请求中
       if (newBlobId) {
@@ -437,7 +372,7 @@ export default function ConversationEdit() {
         <div className="flex items-center justify-center min-h-screen">
           <div className="text-center">
             <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-orange-600 mb-4"></div>
-            <p className="text-gray-600">{isDecrypting ? 'Decrypting resume...' : 'Loading resume data...'}</p>
+            <p className="text-gray-600">{isDecrypting ? 'Decrypting conversation...' : 'Loading conversation data...'}</p>
           </div>
         </div>
       </PageLayout>
@@ -529,7 +464,7 @@ export default function ConversationEdit() {
           {/* 左侧导航 */}
           <div className="w-64 flex-shrink-0">
             <div className="bg-white rounded-lg shadow-md p-6 sticky top-24">
-              <h2 className="text-xl font-bold mb-6 text-gray-900">Resume Sections</h2>
+              <h2 className="text-xl font-bold mb-6 text-gray-900">Conversation Sections</h2>
               <nav className="space-y-2">
                 {sections.map(section => (
                   <button
@@ -558,7 +493,7 @@ export default function ConversationEdit() {
                   <span className="text-2xl mr-3">✏️</span>
                   <div>
                     <h3 className="font-semibold text-blue-900">Edit Mode</h3>
-                    <p className="text-sm text-blue-700">Editing Resume ID: {id}</p>
+                    <p className="text-sm text-blue-700">Editing Conversation ID: {id}</p>
                   </div>
                 </div>
               </div>

@@ -2,14 +2,6 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCurrentAccount, useSignAndExecuteTransaction, useSuiClient } from '@mysten/dapp-kit';
 import PageLayout from '../layout/PageLayout';
-import PersonalInfo from './sections/PersonalInfo';
-import Skills from './sections/Skills';
-import DesiredPosition from './sections/DesiredPosition';
-import WorkExperience from './sections/WorkExperience';
-import ProjectExperience from './sections/ProjectExperience';
-import Education from './sections/Education';
-import Certificates from './sections/Certificates';
-
 import EncryptionModeSelector from '../components/EncryptionModeSelector';
 import { conversationService, userService } from '../services';
 import { transformConversationData, validateConversationData } from '../services/conversation.transform';
