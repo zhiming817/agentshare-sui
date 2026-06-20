@@ -34,11 +34,7 @@ export default function ConversationList() {
 
   // Load conversation list
   useEffect(() => {
-    if (connected && publicKey) {
-      load();
-    } else {
-      setConversations([]);
-    }
+    load();
   }, [connected, publicKey]);
 
   const load = async () => {

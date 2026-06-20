@@ -3,7 +3,8 @@
  */
 
 // 从环境变量或配置文件读取 API 基础 URL
-export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:4021';
+// 在生产环境下，如果前端和后端在同一域名下，建议直接使用相对路径或确保域名一致
+export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
 
 // API 端点
 export const API_ENDPOINTS = {
