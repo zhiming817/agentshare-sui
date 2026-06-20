@@ -36,29 +36,29 @@ export default function Home() {
            
             
             <h1 className="text-6xl md:text-8xl font-black mb-6 bg-gradient-to-r from-orange-300 via-yellow-300 to-red-300 text-transparent bg-clip-text drop-shadow-[0_4px_20px_rgba(255,165,0,0.8)]">
-              ResumeVault
+              AgentShare
             </h1>
             
             <p className="text-2xl md:text-4xl font-bold mb-8 text-white drop-shadow-[0_4px_12px_rgba(0,0,0,0.8)] [text-shadow:_2px_2px_4px_rgb(0_0_0_/_80%)]">
-              Own Your Career Data, Earn From Every View
+              Own Your AI Data, Earn From Every Unlock
             </p>
             
             <p className="text-xl md:text-2xl mb-12 text-white max-w-3xl mx-auto drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)] [text-shadow:_1px_1px_3px_rgb(0_0_0_/_90%)] leading-relaxed">
-              A Web3 decentralized job platform where job seekers control their encrypted resumes and earn micropayments when recruiters unlock them.
+              A Web3 decentralized platform where AI enthusiasts share their encrypted conversations and earn rewards when others unlock them.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <Link to="/conversation/create">
                 <button className="px-8 py-4 text-lg font-bold bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 text-white rounded-lg shadow-2xl transform hover:scale-105 transition-all flex items-center gap-2">
-                  Create Your Resume
+                  Share Your Conversation
                   <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
                   </svg>
                 </button>
               </Link>
-              <Link to="/conversations/browse">
+              <Link to="/conversation/browse">
                 <button className="px-8 py-4 text-lg font-bold bg-white/90 hover:bg-white text-gray-900 rounded-lg shadow-xl transform hover:scale-105 transition-all border-2 border-white">
-                  Browse Talent
+                  Browse Conversations
                 </button>
               </Link>
             </div>
@@ -79,25 +79,25 @@ export default function Home() {
                 <div className="flex items-start gap-3">
                   <span className="text-2xl">🚨</span>
                   <p className="text-xl md:text-2xl text-gray-700 leading-relaxed">
-                    <span className="font-bold text-red-600">Privacy Leakage:</span> Traditional platforms sell your resume data without consent
+                    <span className="font-bold text-red-600">Privacy Leakage:</span> Centralized platforms sell your interaction data without consent
                   </p>
                 </div>
                 <div className="flex items-start gap-3">
-                  <span className="text-2xl">📞</span>
+                  <span className="text-2xl">🗑️</span>
                   <p className="text-xl md:text-2xl text-gray-700 leading-relaxed">
-                    <span className="font-bold text-red-600">Recruiter Spam:</span> Endless calls and messages from unqualified recruiters
+                    <span className="font-bold text-red-600">Tamper Risk:</span> Your valuable AI interactions can be deleted or modified by hosting services
                   </p>
                 </div>
                 <div className="flex items-start gap-3">
                   <span className="text-2xl">🔒</span>
                   <p className="text-xl md:text-2xl text-gray-700 leading-relaxed">
-                    <span className="font-bold text-red-600">Platform Monopoly:</span> Your career data is trapped and monetized by platforms
+                    <span className="font-bold text-red-600">Fragmented Tools:</span> Hard to manage conversations from Claude, OpenAI, Cursor, and 10+ other tools in one place
                   </p>
                 </div>
                 <div className="flex items-start gap-3">
                   <span className="text-2xl">💸</span>
                   <p className="text-xl md:text-2xl text-gray-700 leading-relaxed">
-                    <span className="font-bold text-red-600">Zero Value:</span> You create the value, but get nothing when recruiters view your profile
+                    <span className="font-bold text-red-600">Zero Rewards:</span> You generate high-quality prompts and answers, but platforms capture all the value
                   </p>
                 </div>
               </div>
@@ -114,38 +114,38 @@ export default function Home() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                 </svg>
                 <h2 className="text-4xl md:text-5xl font-black bg-gradient-to-r from-orange-600 to-red-600 text-transparent bg-clip-text">
-                  ResumeVault Solution
+                  AgentShare Solution
                 </h2>
               </div>
               <p className="text-xl md:text-2xl text-gray-800 leading-relaxed mb-6">
-                A <span className="font-bold text-orange-600">Web3-powered platform</span> where you truly own your career data.
+                A <span className="font-bold text-orange-600">Web3-powered platform</span> where you truly own your AI conversation data.
               </p>
               <div className="space-y-4">
                 <div className="bg-white/80 rounded-lg p-6 border-2 border-orange-300">
                   <div className="flex items-center gap-3 mb-2">
+                    <span className="text-3xl">🗳️</span>
+                    <p className="text-2xl font-bold text-orange-700">Decentralized Storage (Walrus)</p>
+                  </div>
+                  <p className="text-lg text-gray-700 ml-12">
+                    Conversations are stored on <strong>Walrus Protocol</strong>, ensuring high availability, tamper-proof data, and true ownership.
+                  </p>
+                </div>
+                <div className="bg-white/80 rounded-lg p-6 border-2 border-orange-300">
+                  <div className="flex items-center gap-3 mb-2">
                     <span className="text-3xl">🔐</span>
-                    <p className="text-2xl font-bold text-orange-700">Encrypted Storage with Seal</p>
+                    <p className="text-2xl font-bold text-orange-700">Privacy Controls (Sui Seal)</p>
                   </div>
                   <p className="text-lg text-gray-700 ml-12">
-                    Your resume is encrypted with Seal threshold encryption and stored on Walrus. Only authorized users can access.
+                    Use <strong>Sui Seal</strong> for encrypted access. Grant permission via Whitelisting or monetize through USDC Subscriptions.
                   </p>
                 </div>
                 <div className="bg-white/80 rounded-lg p-6 border-2 border-orange-300">
                   <div className="flex items-center gap-3 mb-2">
-                    <span className="text-3xl">💰</span>
-                    <p className="text-2xl font-bold text-orange-700">Dual Access Modes</p>
+                    <span className="text-3xl">🔄</span>
+                    <p className="text-2xl font-bold text-orange-700">Multi-Format Import</p>
                   </div>
                   <p className="text-lg text-gray-700 ml-12">
-                    <strong>Allowlist:</strong> Manually authorize specific recruiters. <strong>Subscription:</strong> Set a price, get paid directly when recruiters unlock your resume.
-                  </p>
-                </div>
-                <div className="bg-white/80 rounded-lg p-6 border-2 border-orange-300">
-                  <div className="flex items-center gap-3 mb-2">
-                    <span className="text-3xl">🛡️</span>
-                    <p className="text-2xl font-bold text-orange-700">Anti-Spam Protection</p>
-                  </div>
-                  <p className="text-lg text-gray-700 ml-12">
-                    Payment barrier and reputation system prevent low-quality spam.
+                    Import interactions from <strong>10+ tools</strong> including Claude Code, OpenAI, Cursor, Windsurf, Aider, and more.
                   </p>
                 </div>
               </div>
@@ -170,8 +170,8 @@ export default function Home() {
                   <div className="flex items-start gap-4">
                     <span className="text-4xl font-black text-yellow-600">1</span>
                     <div>
-                      <p className="text-xl font-bold text-gray-900 mb-2">Job Seeker Uploads Encrypted Resume</p>
-                      <p className="text-lg text-gray-700">Connect wallet, upload resume, set your unlock price. AI extracts skill tags.</p>
+                      <p className="text-xl font-bold text-gray-900 mb-2">Import & Encrypt Your Conversation</p>
+                      <p className="text-lg text-gray-700">Upload JSONL/JSON from Claude/OpenAI. Data is encrypted via <strong>Sui Seal</strong> and stored on <strong>Walrus</strong>.</p>
                     </div>
                   </div>
                 </div>
@@ -179,8 +179,8 @@ export default function Home() {
                   <div className="flex items-start gap-4">
                     <span className="text-4xl font-black text-orange-600">2</span>
                     <div>
-                      <p className="text-xl font-bold text-gray-900 mb-2">Recruiters Browse Anonymous Profiles</p>
-                      <p className="text-lg text-gray-700">See skill summaries and tags without personal information.</p>
+                      <p className="text-xl font-bold text-gray-900 mb-2">Set Access & Monetization Policies</p>
+                      <p className="text-lg text-gray-700">Choose between public, allowlist-only, or set a USDC price for others to unlock access.</p>
                     </div>
                   </div>
                 </div>
@@ -188,8 +188,8 @@ export default function Home() {
                   <div className="flex items-start gap-4">
                     <span className="text-4xl font-black text-red-600">3</span>
                     <div>
-                      <p className="text-xl font-bold text-gray-900 mb-2">Pay to Unlock or Get Authorized</p>
-                      <p className="text-lg text-gray-700">Recruiters either get added to allowlist or pay subscription fee to unlock full resume.</p>
+                      <p className="text-xl font-bold text-gray-900 mb-2">Community Discovers & Unlocks</p>
+                      <p className="text-lg text-gray-700">Users browse metadata and tags. If subscription is enabled, they pay to decrypt and view the full content.</p>
                     </div>
                   </div>
                 </div>
@@ -197,8 +197,8 @@ export default function Home() {
                   <div className="flex items-start gap-4">
                     <span className="text-4xl font-black text-green-600">4</span>
                     <div>
-                      <p className="text-xl font-bold text-gray-900 mb-2">Automatic Decryption & Access</p>
-                      <p className="text-lg text-gray-700">Payment goes directly to job seeker's wallet. Resume is decrypted instantly.</p>
+                      <p className="text-xl font-bold text-gray-900 mb-2">Earn Directly to Your Wallet</p>
+                      <p className="text-lg text-gray-700">Proceeds from unlocks go straight to your Sui wallet. No middlemen, no waiting.</p>
                     </div>
                   </div>
                 </div>
@@ -223,48 +223,40 @@ export default function Home() {
               <div className="space-y-6">
                 <div className="bg-white/90 rounded-lg p-6 border-2 border-red-300">
                   <h3 className="text-2xl font-bold text-red-700 mb-3 flex items-center gap-2">
-                    <span>👔</span> Job Seekers
+                    <span>�</span> Content Creators
                   </h3>
                   <ul className="space-y-2 text-lg text-gray-700">
                     <li className="flex items-start gap-2">
                       <span className="text-green-600 font-bold">✓</span>
-                      <span><strong>Own your data:</strong> Full control over who sees your resume</span>
+                      <span><strong>Monetize Expertise:</strong> Get paid for high-quality AI prompts and reasoning flows</span>
                     </li>
                     <li className="flex items-start gap-2">
                       <span className="text-green-600 font-bold">✓</span>
-                      <span><strong>Earn income:</strong> Get paid every time someone unlocks your profile</span>
+                      <span><strong>Permanent Storage:</strong> Conversations live forever on Walrus, independent of AI providers</span>
                     </li>
                     <li className="flex items-start gap-2">
                       <span className="text-green-600 font-bold">✓</span>
-                      <span><strong>Privacy protected:</strong> Encrypted storage prevents data leaks</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <span className="text-green-600 font-bold">✓</span>
-                      <span><strong>Reduce spam:</strong> Payment barrier filters serious recruiters</span>
+                      <span><strong>Privacy First:</strong> Use Sui Seal to control exactly who can view your data</span>
                     </li>
                   </ul>
                 </div>
 
                 <div className="bg-white/90 rounded-lg p-6 border-2 border-orange-300">
                   <h3 className="text-2xl font-bold text-orange-700 mb-3 flex items-center gap-2">
-                    <span>🎯</span> Recruiters & Companies
+                    <span>🔍</span> AI Enthusiasts & Researchers
                   </h3>
                   <ul className="space-y-2 text-lg text-gray-700">
                     <li className="flex items-start gap-2">
                       <span className="text-green-600 font-bold">✓</span>
-                      <span><strong>Quality talent:</strong> Access pre-screened, serious candidates</span>
+                      <span><strong>Discover Alpha:</strong> Find real-world agent interactions that work</span>
                     </li>
                     <li className="flex items-start gap-2">
                       <span className="text-green-600 font-bold">✓</span>
-                      <span><strong>Efficient search:</strong> AI-powered skill matching saves time</span>
+                      <span><strong>Learning Hub:</strong> Study how experts prompt and debug to improve your own productivity</span>
                     </li>
                     <li className="flex items-start gap-2">
                       <span className="text-green-600 font-bold">✓</span>
-                      <span><strong>Fair pricing:</strong> Pay only for profiles you want to see</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <span className="text-green-600 font-bold">✓</span>
-                      <span><strong>Direct connection:</strong> No middleman platform fees</span>
+                      <span><strong>Verified Interactions:</strong> On-chain metadata ensures the content is genuine</span>
                     </li>
                   </ul>
                 </div>
@@ -327,36 +319,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Final CTA Section */}
-        <section className="py-32 px-4 sm:px-6 lg:px-8">
-          <div className="max-w-4xl mx-auto text-center">
-            
-            <h2 className="text-5xl md:text-7xl font-black mb-8 text-white drop-shadow-[0_4px_20px_rgba(0,0,0,0.9)] [text-shadow:_3px_3px_6px_rgb(0_0_0_/_90%)]">
-              Take Control of Your Career Data
-            </h2>
-            <p className="text-2xl md:text-3xl mb-12 text-white drop-shadow-[0_4px_12px_rgba(0,0,0,0.9)] [text-shadow:_2px_2px_4px_rgb(0_0_0_/_90%)]">
-              Join the Web3 revolution in recruitment
-            </p>
-            <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
-              <Link to="/conversation/create">
-                <button className="px-12 py-6 text-xl font-bold bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 text-white rounded-lg shadow-2xl transform hover:scale-110 transition-all flex items-center gap-3">
-                  Upload Resume & Earn
-                  <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
-                  </svg>
-                </button>
-              </Link>
-              <Link to="/conversations/browse">
-                <button className="px-12 py-6 text-xl font-bold bg-white/95 hover:bg-white text-gray-900 rounded-lg shadow-2xl transform hover:scale-110 transition-all border-2 border-white flex items-center gap-3">
-                  Find Talent
-                  <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                  </svg>
-                </button>
-              </Link>
-            </div>
-          </div>
-        </section>
+        
 
         <Footer />
       </div>

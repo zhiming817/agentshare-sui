@@ -48,7 +48,7 @@ const Navbar = () => {
   };
 
   const navigation = [
-    { name: t.explore, href: '/conversation/browse' },
+    { name: t.explore, href: '/conversations' },
     { name: t.upload, href: '/conversation/create' },
     { name: t.skills, href: '/templates' },
     { name: t.token, href: '/token' },
@@ -88,8 +88,8 @@ const Navbar = () => {
             onClick={() => handleNavigation('/')}
             className="flex items-center space-x-2 cursor-pointer"
           >
-            <div className="bg-gradient-to-r from-indigo-500 to-purple-600 p-2 rounded-lg">
-              <span className="text-white text-xl font-bold">🏦</span>
+            <div className="p-1 rounded-lg">
+              <img src="/logo.svg" alt="AgentShare Logo" className="w-10 h-10" />
             </div>
             <span className="text-xl font-bold text-gray-900">AgentShare</span>
           </button>

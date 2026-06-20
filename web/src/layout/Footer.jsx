@@ -62,88 +62,14 @@ const Footer = () => {
     <footer className="bg-gray-50 border-t border-gray-200 mt-auto">
       <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          {/* Brand */}
-          <div className="col-span-1">
-            <div className="flex items-center space-x-2 mb-4">
-              <div className="bg-gradient-to-r from-indigo-600 to-purple-600 p-2 rounded-lg">
-                <span className="text-white text-xl font-bold">🏦</span>
-              </div>
-              <span className="text-xl font-bold text-gray-900">AgentShare</span>
-            </div>
-            <p className="text-gray-600 text-sm leading-relaxed">
-              {t.tagline}
-            </p>
-          </div>
+          
 
-          {/* Platform */}
-          <div>
-            <h3 className="text-sm font-semibold text-gray-900 tracking-wider uppercase mb-4">
-              {t.platform}
-            </h3>
-            <ul className="space-y-3 font-medium">
-              <li>
-                <Link to="/resumes/browse" className="text-sm text-gray-600 hover:text-gray-900 transition-colors">
-                  {t.browse}
-                </Link>
-              </li>
-              <li>
-                <Link to="/templates" className="text-sm text-gray-600 hover:text-gray-900 transition-colors">
-                  {t.skills}
-                </Link>
-              </li>
-              <li>
-                <Link to="/resumes/browse?sort=popular" className="text-sm text-gray-600 hover:text-gray-900 transition-colors">
-                  {t.popular}
-                </Link>
-              </li>
-            </ul>
-          </div>
+          
 
-          {/* Resources */}
-          <div>
-            <h3 className="text-sm font-semibold text-gray-900 tracking-wider uppercase mb-4">
-              {t.resources}
-            </h3>
-            <ul className="space-y-3 font-medium">
-              <li>
-                <a
-                  href="https://github.com/dctongsheng/agentshare"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-sm text-gray-600 hover:text-gray-900 transition-colors flex items-center space-x-1"
-                >
-                  <span>{t.github}</span>
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="text-sm text-gray-600 hover:text-gray-900 transition-colors"
-                >
-                  {t.apiDocs}
-                </a>
-              </li>
-            </ul>
-          </div>
+         
 
           {/* Contact */}
-          <div>
-            <h3 className="text-sm font-semibold text-gray-900 tracking-wider uppercase mb-4">
-              {t.contact}
-            </h3>
-            <ul className="space-y-3 font-medium">
-              <li>
-                <a
-                  href="https://github.com/dctongsheng/agentshare"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-sm text-gray-600 hover:text-gray-900 transition-colors flex items-center space-x-1"
-                >
-                  <span>{t.issues}</span>
-                </a>
-              </li>
-            </ul>
-          </div>
+
         </div>
 
         <div className="mt-12 pt-8 border-t border-gray-200 flex flex-col md:flex-row items-center justify-between text-xs text-gray-500">
