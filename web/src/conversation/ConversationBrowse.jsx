@@ -192,8 +192,8 @@ export default function ConversationBrowse() {
       <div className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">Browse Conversation</h1>
-          <p className="text-gray-600">Discover excellent talent, use micro Sui payments to unlock full Conversation</p>
+          <h1 className="text-4xl font-bold text-gray-900 mb-2">Browse Conversations</h1>
+          <p className="text-gray-600">Discover excellent agents, use micro SUI payments to unlock full conversations</p>
         </div>
 
         {/* Filters */}
@@ -201,12 +201,12 @@ export default function ConversationBrowse() {
 
         {/* Results Count */}
         <div className="mb-4 text-gray-600">
-          Found <span className="font-semibold text-gray-900">{filteredConversations.length}</span> matching Conversation
+          Found <span className="font-semibold text-gray-900">{filteredConversations.length}</span> matching conversations
         </div>
 
         {/* Resume Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredResumes.map(resume => (
+          {filteredConversations.map(resume => (
             <div
               key={resume.id}
               className="bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow overflow-hidden border-2 border-gray-100 hover:border-orange-300"
@@ -270,14 +270,14 @@ export default function ConversationBrowse() {
                   if (encryptionMode === 'allowlist') {
                     return (
                       <button
-                        onClick={() => handleViewResume({ ...resume, isLocked: false })}
+                        onClick={() => handleViewConversation({ ...resume, isLocked: false })}
                         className="w-full px-4 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors flex items-center justify-center gap-2 font-semibold"
                       >
                         <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                         </svg>
-                        View Full Resume
+                        View Full Conversationsation
                       </button>
                     );
                   }
@@ -291,7 +291,7 @@ export default function ConversationBrowse() {
                     if (hasSubscription || !resume.isLocked) {
                       return (
                         <button
-                          onClick={() => handleViewResume({ ...resume, isLocked: false })}
+                          onClick={() => handleViewConversation({ ...resume, isLocked: false })}
                           className="w-full px-4 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors flex items-center justify-center gap-2 font-semibold"
                         >
                           <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -329,7 +329,7 @@ export default function ConversationBrowse() {
                   // Default case (simple encryption or no encryption mode)
                   return (
                     <button
-                      onClick={() => handleViewResume({ ...resume, isLocked: false })}
+                      onClick={() => handleViewConversation({ ...resume, isLocked: false })}
                       className="w-full px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center gap-2 font-semibold"
                     >
                       <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -346,7 +346,7 @@ export default function ConversationBrowse() {
         </div>
 
         {/* Empty State */}
-        {filteredResumes.length === 0 && (
+        {filteredConversations.length === 0 && (
           <div className="text-center py-12 bg-white rounded-lg shadow-md">
             <div className="text-6xl mb-4">🔍</div>
             <h3 className="text-2xl font-bold text-gray-900 mb-2">No Matching Resumes Found</h3>

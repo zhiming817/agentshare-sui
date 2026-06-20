@@ -191,7 +191,7 @@ export default function EncryptionModeSelector({
                   </div>
                 )}
                 <p className="text-xs text-blue-600 mt-1">
-                  Controls who can access your resume
+                  Controls who can access your conversation
                 </p>
               </div>
 
@@ -244,7 +244,7 @@ export default function EncryptionModeSelector({
                   <span className="text-blue-900 font-medium">SUI</span>
                 </div>
                 <p className="text-xs text-blue-600 mt-1">
-                  Users can view your resume permanently after paying this amount
+                  Users can view your conversation permanently after paying this amount
                 </p>
               </div>
 
@@ -292,7 +292,7 @@ export default function EncryptionModeSelector({
             <ul className="text-xs text-blue-700 space-y-1">
               <li>✅ Threshold encryption, keys managed by distributed servers</li>
               <li>✅ Access rights verified via blockchain smart contracts</li>
-              <li>✅ End-to-end encryption ensures resume content security</li>
+              <li>✅ End-to-end encryption ensures conversation content security</li>
               <li>✅ Decentralized architecture, no trusted third party needed</li>
             </ul>
             <div className="mt-3">

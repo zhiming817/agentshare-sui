@@ -11,6 +11,7 @@ import ConversationEdit from './conversation/ConversationEdit.jsx';
 import ConversationList from './conversation/ConversationList.jsx';
 import ConversationBrowse from './conversation/ConversationBrowse.jsx';
 import AllowlistManager from './components/AllowlistManager.jsx';
+import ConversationPreviewPage from './conversation/ConversationPreviewPage.jsx';
 import PageLayout from './layout/PageLayout.jsx';
 import { NETWORK_CONFIG } from './config.js';
 
@@ -49,7 +50,9 @@ function App() {
                 
                 <Route path="/conversations" element={<ConversationList />} />
                 <Route path="/conversations/browse" element={<ConversationBrowse />} />
+                {/* <Route path="/conversation/browse" element={<ConversationBrowse />} /> */}
                 <Route path="/allowlist" element={<PageLayout><AllowlistManager /></PageLayout>} />
+                <Route path="/conversation/preview/:id" element={<ConversationPreviewPage />} />
                 <Route path="/templates" element={<div className="p-8 text-center"><h2 className="text-2xl">模板功能开发中...</h2></div>} />
               </Routes>
             </HashRouter>

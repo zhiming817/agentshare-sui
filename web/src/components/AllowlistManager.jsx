@@ -271,7 +271,7 @@ export default function AllowlistManager({ onAllowlistCreated }) {
                   ✅ Allowlist created successfully!
                 </Typography>
                 <Typography variant="body2" color="text.secondary" paragraph>
-                  Please copy the following IDs for resume creation:
+                  Please copy the following IDs for conversation creation:
                 </Typography>
                 
                 <Box sx={{ mb: 2 }}>
@@ -299,7 +299,7 @@ export default function AllowlistManager({ onAllowlistCreated }) {
                 </Box>
 
                 <Alert severity="info" sx={{ mb: 2 }}>
-                  These two IDs are required when creating your resume.
+                  These two IDs are required when creating your conversation.
                 </Alert>
 
                 <Typography variant="caption" display="block" gutterBottom>
@@ -426,7 +426,7 @@ export default function AllowlistManager({ onAllowlistCreated }) {
                 <TextField
                   fullWidth
                   variant="outlined"
-                  placeholder="e.g., My Resume Access Control"
+                  placeholder="e.g., My Conversation Access Control"
                   value={allowlistName}
                   onChange={(e) => setAllowlistName(e.target.value)}
                   size="small"
@@ -440,9 +440,9 @@ export default function AllowlistManager({ onAllowlistCreated }) {
                 </Typography>
                 <Typography variant="body2" color="text.secondary" component="div">
                   <ul style={{ margin: 0, paddingLeft: '1.2rem' }}>
-                    <li>Allowlist controls who can access your encrypted resume.</li>
+                    <li>Allowlist controls who can access your encrypted conversation.</li>
                     <li>Creating one generates an Allowlist ID and a Cap ID.</li>
-                    <li>Allowlist ID is used to encrypt the resume.</li>
+                    <li>Allowlist ID is used to encrypt the conversation.</li>
                     <li>Cap ID is used to manage the allowlist (add/remove addresses).</li>
                     <li>This is an on-chain operation and requires Gas fees.</li>
                   </ul>
@@ -766,13 +766,13 @@ export default function AllowlistManager({ onAllowlistCreated }) {
             <strong>Step 1:</strong> Create Allowlist (Get Allowlist ID and Cap ID)
           </Typography>
           <Typography variant="body2" color="text.secondary" paragraph>
-            <strong>Step 2:</strong> Enable Seal encryption when creating resume and enter Allowlist ID and Cap ID
+            <strong>Step 2:</strong> Enable Seal encryption when creating conversation and enter Allowlist ID and Cap ID
           </Typography>
           <Typography variant="body2" color="text.secondary" paragraph>
-            <strong>Step 3:</strong> After HR purchases resume, use Cap ID to add HR address to allowlist
+            <strong>Step 3:</strong> After users purchase conversation, use Cap ID to add user address to allowlist
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            <strong>Step 4:</strong> HR can use SessionKey to decrypt and view resume
+            <strong>Step 4:</strong> Users can use SessionKey to decrypt and view conversation
           </Typography>
         </Paper>
       </Box>
@@ -797,7 +797,7 @@ export function AddToAllowlist({ allowlistId, capId, onAddressAdded }) {
     setIsAdding(true);
 
     try {
-      await conversationService.addToResumeAllowlist(
+      await conversationService.addToConversationAllowlist(
         allowlistId,
         capId,
         address.trim(),

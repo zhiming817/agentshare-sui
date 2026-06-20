@@ -18,9 +18,9 @@ export const SUBSCRIPTION_CONFIG = {
   // 最小订阅时长 (毫秒) - 如果要限制时间，可以设置
   minTTL: 0,
   
-  // 默认价格 (USDC micro-units, 6 decimals)
-  // 5 USDC = 5_000_000 micro-units
-  defaultPrice: 5_000_000,
+  // 默认价格 (SUI MIST, 9 decimals)
+  // 5 SUI = 5_000_000_000 MIST
+  defaultPrice: 5_000_000_000,
 };
 
 /**
@@ -33,19 +33,19 @@ export function getSubscriptionTarget(functionName) {
 }
 
 /**
- * 将 USDC 转换为 micro-units
- * @param {number} usdc - USDC 金额
- * @returns {number} micro-units
+ * 将 SUI 转换为 MIST
+ * @param {number} sui - SUI 金额
+ * @returns {number} MIST
  */
-export function usdcToMicroUnits(usdc) {
-  return Math.floor(usdc * 1_000_000);
+export function suiToMist(sui) {
+  return Math.floor(sui * 1_000_000_000);
 }
 
 /**
- * 将 micro-units 转换为 USDC
- * @param {number} microUnits - micro-units
- * @returns {number} USDC 金额
+ * 将 MIST 转换为 SUI
+ * @param {number} mist - MIST
+ * @returns {number} SUI 金额
  */
-export function microUnitsToUsdc(microUnits) {
-  return microUnits / 1_000_000;
+export function mistToSui(mist) {
+  return mist / 1_000_000_000;
 }

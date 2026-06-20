@@ -14,7 +14,7 @@ import EncryptionModeSelector from '../components/EncryptionModeSelector';
 import { conversationService, userService } from '../services';
 import { transformConversationData, validateConversationData } from '../services/conversation.transform';
 import { createSubscriptionServiceTx } from '../utils/subscription';
-import { usdcToMicroUnits } from '../config/subscription.config';
+import { suiToMist } from '../config/subscription.config';
 
 export default function ConversationCreate() {
   const navigate = useNavigate();
@@ -29,7 +29,7 @@ export default function ConversationCreate() {
   // 参考 upload-client.tsx 的数据字段
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [sourceType, setSourceType] = useState('resume');
+  const [sourceType, setSourceType] = useState('');
   const [price, setPrice] = useState('0');
   const [tags, setTags] = useState('');
   const [encrypt, setEncrypt] = useState(false);
@@ -173,7 +173,7 @@ export default function ConversationCreate() {
         }
       } else if (encryptionMode === 'subscription') {
         if (!price || parseFloat(price) <= 0) {
-          alert('Please set a valid subscription price (greater than 0 USDC)');
+          alert('Please set a valid subscription price (greater than 0 SUI)');
           return;
         }
       }
@@ -197,7 +197,7 @@ export default function ConversationCreate() {
         price,
       });
       
-      console.log('Creating resume data:', apiData);
+      console.log('Creating conversation data:', apiData);
       
       let result;
       
@@ -234,7 +234,7 @@ export default function ConversationCreate() {
           
           alert(
             `✅  Created successfully!\n\n` +
-            `Conversation ID: ${result.resumeId}\n` +
+            `Conversation ID: ${result.conversationId}\n` +
             `Blob ID: ${result.blobId}\n` +
             `Encryption ID: ${result.encryptionId}\n\n` +
             `🔐 Encryption Mode: Allowlist\n` +
@@ -249,13 +249,13 @@ export default function ConversationCreate() {
           
           // 1. 先创建订阅服务，获取 Service ID
           console.log('1.📦 创建订阅服务...');
-          const priceInMicroUnits = usdcToMicroUnits(parseFloat(price));
+          const priceInMist = suiToMist(parseFloat(price));
           
           const serviceId = await new Promise((resolve, reject) => {
             const tx = createSubscriptionServiceTx({
-              fee: priceInMicroUnits,
+              fee: priceInMist,
               ttl: 0, // TTL=0 表示永久访问
-              name: `resume_${Date.now()}`, // 临时服务名称
+              name: `conversation_${Date.now()}`, // 临时服务名称
               senderAddress: walletAddress,
             });
             
@@ -368,15 +368,15 @@ export default function ConversationCreate() {
           console.log('✅ Seal 加密创建成功:', result);
           
           alert(
-            `✅ Resume created successfully!\n\n` +
-            `Resume ID: ${result.resumeId}\n` +
+            `✅ Conversation created successfully!\n\n` +
+            `conversation ID: ${result.conversationId}\n` +
             `Blob ID: ${result.blobId}\n` +
             `Encryption ID: ${result.encryptionId}\n\n` +
             `💰 Encryption Mode: Subscription\n` +
-            `💵 Subscription Price: ${price} USDC\n` +
+            `💵 Subscription Price: ${price} SUI\n` +
             `⏰ Access Duration: Permanent\n` +
             `📦 Service ID: ${serviceId}\n\n` +
-            `✨ Users can permanently view your resume after purchasing subscription`
+            `✨ Users can permanently view your conversation after purchasing subscription`
           );
         }
       } else {
@@ -389,18 +389,18 @@ export default function ConversationCreate() {
         // Display encryption key and prompt to save
         const saveKey = window.confirm(
           `✅ conversation created successfully!\n\n` +
-          `conversation ID: ${result.resumeId}\n` +
+          `conversation ID: ${result.conversationId}\n` +
           `Blob ID: ${result.blobId}\n\n` +
           `⚠️ Important: Your encryption key is:\n` +
           `${result.encryptionKey}\n\n` +
-          `This key is the only way to decrypt your resume, please save it!\n` +
+          `This key is the only way to decrypt your conversation, please save it!\n` +
           `Click "OK" to copy the key to clipboard`
         );
         
         if (saveKey) {
           // Copy key to clipboard
           navigator.clipboard.writeText(result.encryptionKey).then(() => {
-            alert('✅ Encryption key copied to clipboard!\nPlease save it properly, loss will make resume unrecoverable.');
+            alert('✅ Encryption key copied to clipboard!\nPlease save it properly, loss will make conversation unrecoverable.');
           }).catch(err => {
             console.error('Copy failed:', err);
             alert('❌ Copy failed, please save the key manually:\n' + result.encryptionKey);
@@ -416,9 +416,9 @@ export default function ConversationCreate() {
         );
         
         if (shouldSaveLocally) {
-          const keys = JSON.parse(localStorage.getItem('resumeEncryptionKeys') || '{}');
-          keys[result.resumeId] = result.encryptionKey;
-          localStorage.setItem('resumeEncryptionKeys', JSON.stringify(keys));
+          const keys = JSON.parse(localStorage.getItem('conversationEncryptionKeys') || '{}');
+          keys[result.conversationId] = result.encryptionKey;
+          localStorage.setItem('conversationEncryptionKeys', JSON.stringify(keys));
           console.log('✅ Encryption key saved locally');
         }
       }
@@ -480,7 +480,7 @@ export default function ConversationCreate() {
                         type="text"
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
-                        placeholder="e.g. Senior Fullstack Engineer Resume"
+                        placeholder="e.g. AI Product Design Discussion"
                         className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-orange-500 focus:border-orange-500"
                       />
                     </div>
@@ -489,7 +489,7 @@ export default function ConversationCreate() {
                       <textarea
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
-                        placeholder="Briefly describe your resume..."
+                        placeholder="Briefly describe what this conversation is about..."
                         rows={3}
                         className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-orange-500 focus:border-orange-500 resize-none"
                       />
@@ -645,7 +645,7 @@ export default function ConversationCreate() {
               {/* 操作按钮 */}
               <div className="mt-8 flex justify-end gap-4">
                 <button
-                  onClick={() => navigate('/resumes')}
+                  onClick={() => navigate('/conversations')}
                   className="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
                   disabled={isSubmitting}
                 >

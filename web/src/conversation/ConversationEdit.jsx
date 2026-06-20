@@ -563,40 +563,7 @@ export default function ConversationEdit() {
                 </div>
               </div>
 
-              {/* 个人信息 */}
-              {activeSection === 'personal' && (
-                <PersonalInfo formData={formData} handleInputChange={handleInputChange} />
-              )}
-
-              {/* 个人优势 */}
-              {activeSection === 'skills' && (
-                <Skills formData={formData} setFormData={setFormData} />
-              )}
-
-              {/* 期望职位 */}
-              {activeSection === 'desired' && (
-                <DesiredPosition formData={formData} handleInputChange={handleInputChange} />
-              )}
-
-              {/* 工作经历 */}
-              {activeSection === 'work' && (
-                <WorkExperience formData={formData} setFormData={setFormData} />
-              )}
-
-              {/* 项目经历 */}
-              {activeSection === 'project' && (
-                <ProjectExperience formData={formData} setFormData={setFormData} />
-              )}
-
-              {/* 教育经历 */}
-              {activeSection === 'education' && (
-                <Education formData={formData} setFormData={setFormData} />
-              )}
-
-              {/* 资格证书 */}
-              {activeSection === 'certificate' && (
-                <Certificates formData={formData} setFormData={setFormData} />
-              )}
+              
 
               {/* 操作按钮 */}
               <div className="mt-8 flex justify-end gap-4">
@@ -607,13 +574,7 @@ export default function ConversationEdit() {
                 >
                   取消
                 </button>
-                <button
-                  onClick={handlePreview}
-                  className="px-6 py-2 border border-orange-500 rounded-lg text-orange-600 hover:bg-orange-50 transition-colors"
-                  disabled={isSubmitting}
-                >
-                  预览
-                </button>
+                
                 <button
                   onClick={handleUpdate}
                   className="px-6 py-2 bg-gradient-to-r from-orange-500 to-red-600 text-white rounded-lg hover:from-orange-600 hover:to-red-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"

@@ -136,7 +136,7 @@ export default function Home() {
                     <p className="text-2xl font-bold text-orange-700">Privacy Controls (Sui Seal)</p>
                   </div>
                   <p className="text-lg text-gray-700 ml-12">
-                    Use <strong>Sui Seal</strong> for encrypted access. Grant permission via Whitelisting or monetize through USDC Subscriptions.
+                    Use <strong>Sui Seal</strong> for encrypted access. Grant permission via Whitelisting or monetize through SUI Subscriptions.
                   </p>
                 </div>
                 <div className="bg-white/80 rounded-lg p-6 border-2 border-orange-300">
@@ -180,7 +180,7 @@ export default function Home() {
                     <span className="text-4xl font-black text-orange-600">2</span>
                     <div>
                       <p className="text-xl font-bold text-gray-900 mb-2">Set Access & Monetization Policies</p>
-                      <p className="text-lg text-gray-700">Choose between public, allowlist-only, or set a USDC price for others to unlock access.</p>
+                      <p className="text-lg text-gray-700">Choose between public, allowlist-only, or set a SUI price for others to unlock access.</p>
                     </div>
                   </div>
                 </div>
