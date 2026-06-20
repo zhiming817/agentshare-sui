@@ -3,6 +3,7 @@ use crate::models::Conversation;
 use sea_orm::{
     ActiveModelTrait, ColumnTrait, DatabaseConnection, EntityTrait, QueryFilter, Set,
 };
+use sea_orm::entity::prelude::Decimal;
 use chrono::Utc;
 use uuid::Uuid;
 
@@ -13,7 +14,7 @@ impl ConversationDao {
     pub async fn create_conversation(
         db: &DatabaseConnection,
         conv_data: Conversation,
-        price: u64,
+        price: Decimal,
     ) -> Result<String, String> {
         let now = Utc::now().naive_utc();
         let new_id = Uuid::new_v4().to_string();
@@ -26,7 +27,7 @@ impl ConversationDao {
             raw_content: Set("".to_string()),
             source_type: Set(conv_data.source_type),
             is_public: Set(true),
-            price: Set(price as i32),
+            price: Set(price),
             created_at: Set(now),
             view_count: Set(0),
             like_count: Set(0),
@@ -91,13 +92,13 @@ impl ConversationDao {
         db: &DatabaseConnection,
         id: &str,
         owner: &str,
-        price: i64,
+        price: Decimal,
     ) -> Result<(), String> {
         let item = Self::get_conversation_by_id_and_owner(db, id, owner).await?;
         
         if let Some(model) = item {
             let mut active_model: conversation::ActiveModel = model.into();
-            active_model.price = Set(price as i32);
+            active_model.price = Set(price);
             active_model.update(db).await
                 .map_err(|e| format!("Failed to update price: {}", e))?;
             Ok(())

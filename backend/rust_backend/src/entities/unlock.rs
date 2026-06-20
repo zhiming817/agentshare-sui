@@ -18,7 +18,7 @@ pub struct Model {
 
     // Legacy fields
     #[sea_orm(column_type = "Text", nullable)]
-    pub resume_id: Option<String>,
+    pub old_conversation_id: Option<String>,
     #[sea_orm(nullable)]
     pub buyer_id: Option<i64>,
     #[sea_orm(column_type = "Text", nullable)]

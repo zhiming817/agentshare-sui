@@ -3,6 +3,8 @@ use crate::models::{
     CreateConversationRequest, Conversation, ConversationListItem, MyConversationSummary,
 };
 use sea_orm::DatabaseConnection;
+use sea_orm::entity::prelude::Decimal;
+use std::str::FromStr;
 
 /// 对话服务层
 pub struct ConversationService;
@@ -16,8 +18,8 @@ impl ConversationService {
     ) -> Result<String, String> {
         let price = request.price
             .as_ref()
-            .and_then(|p| p.parse::<u64>().ok())
-            .unwrap_or(0);
+            .and_then(|p| Decimal::from_str(p).ok())
+            .unwrap_or_else(|| Decimal::from(0));
 
         let tags: Option<Vec<String>> = request.tags
             .as_ref()
@@ -37,7 +39,6 @@ impl ConversationService {
             policy_object_id: request.policy_id, // 映射 policy_id -> policy_object_id
             encryption_type: request.encryption_type,
             encryption_mode: request.encryption_mode,
-            ipfs_cid: request.ipfs_cid,
         };
 
         ConversationDao::create_conversation(db, conversation, price).await
@@ -56,7 +57,7 @@ impl ConversationService {
                 id: item.id.clone(),
                 title: item.title,
                 owner: item.user_id,
-                price: item.price as i64,
+                price: item.price,
                 source_type: Some(item.source_type),
                 blob_id: item.blob_id,
                 encryption_type: item.encryption_type,
@@ -81,7 +82,7 @@ impl ConversationService {
                 owner: item.user_id,
                 created_at: item.created_at.and_utc().timestamp(),
                 updated_at: item.created_at.and_utc().timestamp(),
-                price: item.price as i64,
+                price: item.price,
                 view_count: item.view_count,
                 unlock_count: 0,
                 status: "active".to_string(),
@@ -118,7 +119,6 @@ impl ConversationService {
             policy_object_id: item.policy_object_id,
             encryption_type: item.encryption_type,
             encryption_mode: item.encryption_mode,
-            ipfs_cid: None,
         })
     }
 
@@ -154,9 +154,9 @@ impl ConversationService {
         db: &DatabaseConnection,
         id: &str,
         owner: &str,
-        price: u64,
+        price: Decimal,
     ) -> Result<(), String> {
-        ConversationDao::update_price(db, id, owner, price as i64).await
+        ConversationDao::update_price(db, id, owner, price).await
     }
 
     /// 更新名称/标题

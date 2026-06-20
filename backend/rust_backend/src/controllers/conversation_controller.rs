@@ -22,16 +22,10 @@ impl ConversationController {
         let blob_id = match request.blob_id.as_ref() {
             Some(id) if !id.is_empty() => id.clone(),
             _ => {
-                // 向后兼容：检查旧的 ipfs_cid 字段
-                match request.ipfs_cid.as_ref() {
-                    Some(cid) if !cid.is_empty() => cid.clone(),
-                    _ => {
-                        let response = ApiResponse::<()>::error(
-                            "Blob ID is required. Please encrypt and upload the conversation to Walrus first.".to_string()
-                        );
-                        return HttpResponse::BadRequest().json(response);
-                    }
-                }
+                let response = ApiResponse::<()>::error(
+                    "Blob ID is required. Please encrypt and upload the conversation to Walrus first.".to_string()
+                );
+                return HttpResponse::BadRequest().json(response);
             }
         };
 
@@ -72,7 +66,7 @@ impl ConversationController {
     }
 
     /// 获取我的对话列表
-    pub async fn get_my_resumes(
+    pub async fn get_my_conversations(
         owner: web::Path<String>,
         db: web::Data<DatabaseConnection>,
     ) -> impl Responder {
@@ -91,7 +85,7 @@ impl ConversationController {
     }
 
     /// 根据 owner 和对话 ID 获取详情
-    pub async fn get_resume_detail(
+    pub async fn get_conversation_detail(
         path: web::Path<(String, String)>, // (conversation_id, owner)
         db: web::Data<DatabaseConnection>,
     ) -> impl Responder {

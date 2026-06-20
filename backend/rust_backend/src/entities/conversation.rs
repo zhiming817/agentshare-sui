@@ -1,7 +1,8 @@
 use sea_orm::entity::prelude::*;
 use serde::{Deserialize, Serialize};
+use sea_orm::entity::prelude::Decimal;
 
-#[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, DeriveEntityModel, Serialize, Deserialize)]
 #[sea_orm(table_name = "conversations")]
 pub struct Model {
     #[sea_orm(primary_key, column_type = "Text")]
@@ -17,7 +18,7 @@ pub struct Model {
     #[sea_orm(column_type = "Text")]
     pub source_type: String,
     pub is_public: bool,
-    pub price: i32,
+    pub price: Decimal,
     pub view_count: i32,
     pub like_count: i32,
     pub dislike_count: i32,

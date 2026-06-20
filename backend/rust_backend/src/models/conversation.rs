@@ -1,4 +1,5 @@
 use serde::{Deserialize, Serialize};
+use sea_orm::entity::prelude::Decimal;
 
 /// 对话消息
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -43,9 +44,6 @@ pub struct Conversation {
     pub policy_object_id: Option<String>, // Seal Policy Object ID
     pub encryption_type: Option<String>, // "simple" 或 "seal"
     pub encryption_mode: Option<String>, // "allowlist" 或 "subscription"
-    
-    // 向后兼容字段
-    pub ipfs_cid: Option<String>,
 }
 
 /// 对话列表项
@@ -54,7 +52,7 @@ pub struct ConversationListItem {
     pub id: String,
     pub title: String,
     pub owner: String,
-    pub price: i64,
+    pub price: Decimal,
     pub source_type: Option<String>,
     pub blob_id: Option<String>,
     pub encryption_type: Option<String>,
@@ -71,7 +69,7 @@ pub struct MyConversationSummary {
     pub owner: String,
     pub created_at: i64,
     pub updated_at: i64,
-    pub price: i64,
+    pub price: Decimal,
     pub view_count: i32,
     pub unlock_count: i32,
     pub status: String,
@@ -87,7 +85,7 @@ pub struct MyConversationSummary {
 pub struct SetPriceRequest {
     pub conversation_id: String,
     pub owner: String,
-    pub price: u64,
+    pub price: Decimal,
 }
 
 /// 更新名称请求
@@ -113,9 +111,6 @@ pub struct CreateConversationRequest {
     pub encryption_type: Option<String>,
     pub encryption_mode: Option<String>,
     pub _encryption_key: Option<String>, // 简单加密密钥 (当前未读取)
-    
-    // 兼容旧版字段
-    pub ipfs_cid: Option<String>,
     
     // 原始数据 (如果是手动录入)
     pub _content: Option<ConversationData>, // (当前未读取)
