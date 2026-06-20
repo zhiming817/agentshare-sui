@@ -68,7 +68,7 @@ BEGIN
 END $$;
 ALTER TABLE "public"."conversations" ALTER COLUMN "user_id" TYPE bigint USING (user_id::bigint);
 ALTER TABLE "public"."conversations" ALTER COLUMN "user_id" DROP NOT NULL;
-ALTER TABLE "public"."conversations" ALTER COLUMN "price" TYPE bigint USING (price::bigint);
+ALTER TABLE "public"."conversations" ALTER COLUMN "price" TYPE numeric USING (price::numeric);
 ALTER TABLE "public"."conversations" ALTER COLUMN "price" DROP NOT NULL;
 ALTER TABLE "public"."conversations" ADD COLUMN IF NOT EXISTS "updated_at" timestamp(3) WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP;
 ALTER TABLE "public"."conversations" ALTER COLUMN "created_at" TYPE timestamp(3) WITH TIME ZONE USING (created_at AT TIME ZONE 'UTC');

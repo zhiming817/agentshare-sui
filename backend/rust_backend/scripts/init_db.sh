@@ -53,7 +53,7 @@ if [ $? -eq 0 ]; then
     echo ""
     echo "📋 创建的表:"
     echo "  - users (用户表)"
-    echo "  - resumes (简历表)"
+    echo "  - resumes (会话表)"
     echo "  - unlock_records (解锁记录表)"
     echo ""
     echo "🚀 现在可以运行: cargo run"
