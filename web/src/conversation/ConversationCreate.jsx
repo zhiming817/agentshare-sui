@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useCurrentAccount, useSignAndExecuteTransaction, useSuiClient } from '@mysten/dapp-kit';
 import PageLayout from '../layout/PageLayout';
 import EncryptionModeSelector from '../components/EncryptionModeSelector';
+import ConversationSuccessDialog from '../components/ConversationSuccessDialog';
 import { conversationService, userService } from '../services';
 import { transformConversationData, validateConversationData } from '../services/conversation.transform';
 import { createSubscriptionServiceTx } from '../utils/subscription';
@@ -17,6 +18,8 @@ export default function ConversationCreate() {
   const publicKey = currentAccount?.address;
   const [activeSection, setActiveSection] = useState('basic');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showSuccessDialog, setShowSuccessDialog] = useState(false);
+  const [successData, setSuccessData] = useState(null);
   
   // 参考 upload-client.tsx 的数据字段
   const [title, setTitle] = useState('');
@@ -224,16 +227,14 @@ export default function ConversationCreate() {
             signAndExecute
           );
           
-          alert(
-            `✅  Created successfully!\n\n` +
-            `Conversation ID: ${result.conversationId}\n` +
-            `Blob ID: ${result.blobId}\n` +
-            `Encryption ID: ${result.encryptionId}\n\n` +
-            `🔐 Encryption Mode: Allowlist\n` +
-            `✅ You have been automatically added to the access whitelist\n` +
-            `Access control managed by Allowlist\n` +
-            `Allowlist ID: ${policyObjectId}`
-          );
+          setSuccessData({
+            conversationId: result.conversationId,
+            blobId: result.blobId,
+            encryptionId: result.encryptionId,
+            mode: 'Allowlist',
+            policyId: policyObjectId
+          });
+          setShowSuccessDialog(true);
           
         } else if (encryptionMode === 'subscription') {
           // ===== 订阅模式 =====
@@ -359,17 +360,15 @@ export default function ConversationCreate() {
           result = await conversationService.createConversationWithSeal(apiData, serviceId, 'subscription');
           console.log('✅ Seal 加密创建成功:', result);
           
-          alert(
-            `✅ Conversation created successfully!\n\n` +
-            `conversation ID: ${result.conversationId}\n` +
-            `Blob ID: ${result.blobId}\n` +
-            `Encryption ID: ${result.encryptionId}\n\n` +
-            `💰 Encryption Mode: Subscription\n` +
-            `💵 Subscription Price: ${price} SUI\n` +
-            `⏰ Access Duration: Permanent\n` +
-            `📦 Service ID: ${serviceId}\n\n` +
-            `✨ Users can permanently view your conversation after purchasing subscription`
-          );
+          setSuccessData({
+            conversationId: result.conversationId,
+            blobId: result.blobId,
+            encryptionId: result.encryptionId,
+            mode: 'Subscription',
+            price: price,
+            serviceId: serviceId
+          });
+          setShowSuccessDialog(true);
         }
       } else {
         // Use simple encryption
@@ -378,28 +377,17 @@ export default function ConversationCreate() {
         
         console.log('conversation created successfully:', result);
         
-        // Display encryption key and prompt to save
-        const saveKey = window.confirm(
-          `✅ conversation created successfully!\n\n` +
-          `conversation ID: ${result.conversationId}\n` +
-          `Blob ID: ${result.blobId}\n\n` +
-          `⚠️ Important: Your encryption key is:\n` +
-          `${result.encryptionKey}\n\n` +
-          `This key is the only way to decrypt your conversation, please save it!\n` +
-          `Click "OK" to copy the key to clipboard`
-        );
-        
-        if (saveKey) {
-          // Copy key to clipboard
-          navigator.clipboard.writeText(result.encryptionKey).then(() => {
-            alert('✅ Encryption key copied to clipboard!\nPlease save it properly, loss will make conversation unrecoverable.');
-          }).catch(err => {
-            console.error('Copy failed:', err);
-            alert('❌ Copy failed, please save the key manually:\n' + result.encryptionKey);
-          });
-        }
-        
-        // Save encryption key to localStorage (optional)
+        setSuccessData({
+          conversationId: result.conversationId,
+          blobId: result.blobId,
+          encryptionKey: result.encryptionKey,
+          mode: 'Simple'
+        });
+        setShowSuccessDialog(true);
+      }
+      
+      // Save encryption key to localStorage (optional)
+      if (successData?.mode === 'Simple') {
         const shouldSaveLocally = window.confirm(
           'Save encryption key to browser local storage?\n\n' +
           '✅ Advantages: Convenient for previewing and editing your own conversation\n' +
@@ -409,14 +397,11 @@ export default function ConversationCreate() {
         
         if (shouldSaveLocally) {
           const keys = JSON.parse(localStorage.getItem('conversationEncryptionKeys') || '{}');
-          keys[result.conversationId] = result.encryptionKey;
+          keys[successData.conversationId] = successData.encryptionKey;
           localStorage.setItem('conversationEncryptionKeys', JSON.stringify(keys));
           console.log('✅ Encryption key saved locally');
         }
       }
-      
-      // Navigate to resume list page
-      navigate('/conversations');
       
     } catch (error) {
       console.error('conversation creation failed:', error);
@@ -680,6 +665,12 @@ export default function ConversationCreate() {
           </div>
         </div>
       </div>
+
+      <ConversationSuccessDialog 
+        open={showSuccessDialog}
+        onClose={() => setShowSuccessDialog(false)}
+        data={successData}
+      />
     </PageLayout>
   );
 }
