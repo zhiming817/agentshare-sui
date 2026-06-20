@@ -1,11 +1,10 @@
 use crate::entities::conversation;
 use crate::models::Conversation;
 use sea_orm::{
-    ActiveModelTrait, ColumnTrait, DatabaseConnection, EntityTrait, QueryFilter, Set,
+    ActiveModelTrait, ColumnTrait, DatabaseConnection, EntityTrait, QueryFilter, QueryOrder, Set,
 };
 use sea_orm::entity::prelude::Decimal;
 use chrono::Utc;
-use uuid::Uuid;
 
 pub struct ConversationDao;
 
@@ -15,12 +14,11 @@ impl ConversationDao {
         db: &DatabaseConnection,
         conv_data: Conversation,
         price: Decimal,
-    ) -> Result<String, String> {
+    ) -> Result<conversation::Model, String> {
         let now = Utc::now().naive_utc();
-        let new_id = Uuid::new_v4().to_string();
         
         let active_model = conversation::ActiveModel {
-            id: Set(new_id.clone()),
+            id: Set(conv_data.id.clone()),
             user_id: Set(conv_data.owner),
             title: Set(conv_data.title),
             description: Set(conv_data.description),
@@ -47,7 +45,7 @@ impl ConversationDao {
         let result = active_model.insert(db).await
             .map_err(|e| format!("Failed to insert conversation: {}", e))?;
             
-        Ok(result.id)
+        Ok(result)
     }
 
     /// 获取所有公开/活跃的对话
@@ -56,6 +54,7 @@ impl ConversationDao {
     ) -> Result<Vec<conversation::Model>, String> {
         conversation::Entity::find()
             .filter(conversation::Column::IsPublic.eq(true))
+            .order_by_desc(conversation::Column::CreatedAt)
             .all(db)
             .await
             .map_err(|e| format!("Failed to fetch conversations: {}", e))
@@ -68,6 +67,7 @@ impl ConversationDao {
     ) -> Result<Vec<conversation::Model>, String> {
         conversation::Entity::find()
             .filter(conversation::Column::UserId.eq(owner))
+            .order_by_desc(conversation::Column::CreatedAt)
             .all(db)
             .await
             .map_err(|e| format!("Failed to fetch owner conversations: {}", e))

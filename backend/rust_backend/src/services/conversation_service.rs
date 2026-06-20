@@ -5,6 +5,7 @@ use crate::models::{
 use sea_orm::DatabaseConnection;
 use sea_orm::entity::prelude::Decimal;
 use std::str::FromStr;
+use uuid::Uuid;
 
 /// 对话服务层
 pub struct ConversationService;
@@ -26,7 +27,7 @@ impl ConversationService {
             .map(|t| t.split(',').map(|s| s.trim().to_string()).collect());
 
         let conversation = Conversation {
-            id: "".to_string(), // 由数据库/DAO 生成
+            id: Uuid::new_v4().to_string(),
             owner: request.owner,
             title: request.title,
             description: request.description,
@@ -41,7 +42,8 @@ impl ConversationService {
             encryption_mode: request.encryption_mode,
         };
 
-        ConversationDao::create_conversation(db, conversation, price).await
+        let model = ConversationDao::create_conversation(db, conversation, price).await?;
+        Ok(model.id)
     }
 
     /// 获取所有公开对话摘要
@@ -58,6 +60,7 @@ impl ConversationService {
                 title: item.title,
                 owner: item.user_id,
                 price: item.price,
+                created_at: item.created_at.and_utc().timestamp(),
                 source_type: Some(item.source_type),
                 blob_id: item.blob_id,
                 encryption_type: item.encryption_type,

@@ -53,6 +53,7 @@ pub struct ConversationListItem {
     pub title: String,
     pub owner: String,
     pub price: Decimal,
+    pub created_at: i64,
     pub source_type: Option<String>,
     pub blob_id: Option<String>,
     pub encryption_type: Option<String>,
