@@ -80,8 +80,10 @@ agentshare-sui/
    ```
    Open `http://localhost:5173` in your browser.
 
-## 🔗 Repository
+## 🔗 Links
 
+- **Demo**: [https://agentshare.shield-connect.work/](https://agentshare.shield-connect.work/)
+- **Testnet Contract**: `0xe32dbbf18ae7fa2506f420531a559608ceabd03382780b5f3f0c2f9a06c33778`
 - **Main Repo**: [https://github.com/zhiming817/agentshare-sui](https://github.com/zhiming817/agentshare-sui)
 
 ## 📄 License
