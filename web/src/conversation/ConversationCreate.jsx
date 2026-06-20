@@ -205,14 +205,14 @@ export default function ConversationCreate() {
         if (encryptionMode === 'allowlist') {
           // ===== Allowlist 模式 =====
           console.log('🔐 使用 Seal + Allowlist 模式创建会话...');
-          result = await conversationService.createResumeWithSeal(apiData, policyObjectId, 'allowlist');
+          result = await conversationService.createConversationWithSeal(apiData, policyObjectId, 'allowlist');
           
           console.log('✅ Seal 加密创建成功:', result);
           
           // 自动将创建者添加到 Allowlist
-          console.log('👤 自动添加创建者到 Allowlist...');
+          console.log('1.👤 自动添加创建者到 Allowlist...');
           try {
-            await conversationService.addToResumeAllowlist(
+            await conversationService.addToConversationAllowlist(
               policyObjectId,
               capId,
               walletAddress,
@@ -224,7 +224,7 @@ export default function ConversationCreate() {
           }
           
           // 关联 Blob 到 Allowlist
-          console.log('📎 关联 Blob 到 Allowlist...');
+          console.log('2.📎 关联 Blob 到 Allowlist...');
           await conversationService.publishBlobToAllowlist(
             policyObjectId,
             capId,
@@ -233,8 +233,8 @@ export default function ConversationCreate() {
           );
           
           alert(
-            `✅ Resume created successfully!\n\n` +
-            `Resume ID: ${result.resumeId}\n` +
+            `✅  Created successfully!\n\n` +
+            `Conversation ID: ${result.resumeId}\n` +
             `Blob ID: ${result.blobId}\n` +
             `Encryption ID: ${result.encryptionId}\n\n` +
             `🔐 Encryption Mode: Allowlist\n` +
@@ -248,7 +248,7 @@ export default function ConversationCreate() {
           console.log('💰 使用 Seal + 订阅模式创建会话...');
           
           // 1. 先创建订阅服务，获取 Service ID
-          console.log('📦 创建订阅服务...');
+          console.log('1.📦 创建订阅服务...');
           const priceInMicroUnits = usdcToMicroUnits(parseFloat(price));
           
           const serviceId = await new Promise((resolve, reject) => {
@@ -363,8 +363,8 @@ export default function ConversationCreate() {
           });
           
           // 2. 使用 Service ID 创建加密会话
-          console.log('🔐 创建加密会话（关联订阅服务）...');
-          result = await conversationService.createResumeWithSeal(apiData, serviceId, 'subscription');
+          console.log('2.🔐 创建加密会话（关联订阅服务）...');
+          result = await conversationService.createConversationWithSeal(apiData, serviceId, 'subscription');
           console.log('✅ Seal 加密创建成功:', result);
           
           alert(
@@ -381,15 +381,15 @@ export default function ConversationCreate() {
         }
       } else {
         // Use simple encryption
-        console.log('🔒 Using simple encryption to create resume...');
-        result = await conversationService.createResume(apiData);
+        console.log('🔒 Using simple encryption to create conversation...');
+        result = await conversationService.createConversation(apiData);
         
-        console.log('Resume created successfully:', result);
+        console.log('conversation created successfully:', result);
         
         // Display encryption key and prompt to save
         const saveKey = window.confirm(
-          `✅ Resume created successfully!\n\n` +
-          `Resume ID: ${result.resumeId}\n` +
+          `✅ conversation created successfully!\n\n` +
+          `conversation ID: ${result.resumeId}\n` +
           `Blob ID: ${result.blobId}\n\n` +
           `⚠️ Important: Your encryption key is:\n` +
           `${result.encryptionKey}\n\n` +
@@ -410,8 +410,8 @@ export default function ConversationCreate() {
         // Save encryption key to localStorage (optional)
         const shouldSaveLocally = window.confirm(
           'Save encryption key to browser local storage?\n\n' +
-          '✅ Advantages: Convenient for previewing and editing your own resume\n' +
-          '⚠️ Risks: Others using this device may access your resume\n\n' +
+          '✅ Advantages: Convenient for previewing and editing your own conversation\n' +
+          '⚠️ Risks: Others using this device may access your conversation\n\n' +
           'Recommendation: Only save on personal devices'
         );
         
@@ -424,24 +424,29 @@ export default function ConversationCreate() {
       }
       
       // Navigate to resume list page
-      navigate('/resumes');
+      navigate('/conversations');
       
     } catch (error) {
-      console.error('Resume creation failed:', error);
-      alert(`Resume creation failed: ${error.message}`);
+      console.error('conversation creation failed:', error);
+      alert(`conversation creation failed: ${error.message}`);
     } finally {
       setIsSubmitting(false);
     }
   };
 
   const handlePreview = () => {
+    // 暂时禁用预览功能，因为组件已被删除
+    alert('Preview feature is coming soon!');
+  };
+
+  return (
     <PageLayout>
       <div className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
         <div className="flex gap-6">
           {/* 左侧导航 */}
           <div className="w-64 flex-shrink-0">
             <div className="bg-white rounded-lg shadow-md p-6 sticky top-24">
-              <h2 className="text-xl font-bold mb-6 text-gray-900">Resume Sections</h2>
+              <h2 className="text-xl font-bold mb-6 text-gray-900">Sections</h2>
               <nav className="space-y-2">
                 {sections.map(section => (
                   <button
@@ -506,7 +511,7 @@ export default function ConversationCreate() {
                         onChange={(e) => setSourceType(e.target.value)}
                         className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-orange-500 focus:border-orange-500"
                       >
-                        <option value="resume">Resume</option>
+                       
                         <option value="claude-code">Claude Code</option>
                         <option value="openai">OpenAI</option>
                         <option value="manual">Manual Entry</option>
@@ -683,7 +688,7 @@ export default function ConversationCreate() {
           </div>
         </div>
       </div>
+    </PageLayout>
+  );
+}
 
-      {/* 预览弹窗 */}
-      {showPreview && (
-        <ConversationPreview 
